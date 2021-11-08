@@ -1,0 +1,51 @@
+.taskStatus {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid orange;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    transition: 0.3s;
+    margin-right: 15px;
+}
+
+.done {
+    background-color: orange;
+    background-image: url(../../assets/whitecheck.png);
+}
+
+.taskName {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.taskText {
+    padding: 15px;
+}
+
+.btn {
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: large;
+    min-width: 100px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.btnStatus {
+    background-color: rgba(21, 192, 29, 0.74);
+    color: #eee;
+}
+
+.btnEdit {
+    background-color: rgb(255, 166, 0);
+    color: #eee;
+}

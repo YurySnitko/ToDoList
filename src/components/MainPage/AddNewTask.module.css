@@ -1,0 +1,9 @@
+.tasksContainer {
+    margin-top: 20px;
+}
+
+.taskForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

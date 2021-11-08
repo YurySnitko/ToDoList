@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: stretch;
+    margin: 0 10px;
+}
+
+.calendarItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 50px;
+    height: 60px;
+    border: 2px solid #bbb;
+    border-radius: 25%;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.taskStatuses {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.today {
+    background: #444;
+    color: #eee;
+    border: 2px solid #111;
+}
+
+.active {
+    color: orange;
+    border: 2px solid orange;
+}
+
+.completedTasksExist {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(247, 228, 193);
+    margin: 0 3px;
+}
+
+.incompletedTasksExist {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: orange;
+    margin: 0 3px;
+}
