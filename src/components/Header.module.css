@@ -1,0 +1,13 @@
+.header {
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.appName {
+    font-size: xx-large;
+}
