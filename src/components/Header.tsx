@@ -15,7 +15,10 @@ export const Header = () => {
         <div className={s.appName}>
             Tassker
         </div>
-        {isAuth && <button onClick={logoutCallback}>Sign Out</button> }
+        {isAuth && <div>
+            <button className={s.btn} onClick={logoutCallback}>Sign Out</button>
+        </div>
+        }
         
     </header>
 }

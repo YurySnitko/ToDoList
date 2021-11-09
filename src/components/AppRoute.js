@@ -1,14 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router';
 import { getIsAuth } from '../redux/authSelectors';
-import { AuthContext } from './Auth';
 import LoginPage from './LoginPage/LoginPage';
 import SignUpPage from './LoginPage/SignUpPage';
 import MainContainer from './MainPage/MainContainer';
 
 export const AppRoute = () => {
-    //const {currentUser} = useContext(AuthContext);
     const isAuth = useSelector(getIsAuth);
 
     return isAuth ? <MainContainer />

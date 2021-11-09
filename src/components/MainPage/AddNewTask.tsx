@@ -11,7 +11,6 @@ type PropsType = {
 }
 
 const AddNewTask: React.FC<RouteComponentProps & PropsType> = (props) => {
-    // const {currentUser} = useContext(AuthContext);
     const dispatch = useDispatch();
     const userId = useSelector(getUserId);
 
@@ -28,14 +27,6 @@ const AddNewTask: React.FC<RouteComponentProps & PropsType> = (props) => {
             dispatch(addTask(userId, props.chosenDate, taskData))
             props.history.push("/main");
         }
-
-        // try {
-        //     const newTaskKey = push(child(ref(database), 'users/' + currentUser.uid + '/tasks/' + props.chosenDate?.format('DD-MM-YYYY'))).key;
-        //     update(ref(database, 'users/' + currentUser.uid + '/tasks/' + props.chosenDate?.format('DD-MM-YYYY') + '/' + newTaskKey), taskData);
-        //     props.history.push("/main");
-        // } catch (err) {
-        //     alert(err);
-        // }
     }
 
     return <div className={s.addTaskContainer}>

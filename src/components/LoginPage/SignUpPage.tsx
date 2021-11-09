@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import { signUp } from '../../redux/authReducer';
 import s from './SignUpPage.module.css';
+import loginLogo from '../../assets/loginlogo.png';
 
 const SignUpPage = ({history}: {history: any}) => {
     const dispatch = useDispatch();
@@ -16,7 +17,10 @@ const SignUpPage = ({history}: {history: any}) => {
 
     return <div className={s.container}>
         <h1>Sign Up</h1>
-        <form onSubmit={handleSignUp}>
+        <div>
+            <img src={loginLogo} alt='login logo' />
+        </div>
+        <form className={s.formContainer} onSubmit={handleSignUp}>
             <input type="email" name="email" placeholder="Email" />
             <input type="password" name="password" placeholder="Password" />
             <button type="submit">Sign Up</button>
