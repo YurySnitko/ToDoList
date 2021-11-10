@@ -12,9 +12,9 @@ export const TaskPage: React.FC<PropsType> = ({chosenDate}) => {
     const taskData = useSelector(getTaskData);
     const userId = useSelector(getUserId);
     const taskId = useSelector(getTaskId)
-    const [editMode, setEditMode] = useState(false);
-    const [taskText, setTaskText] = useState(taskData.text);
-    const [taskName, setTaskName] = useState(taskData.name);
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [taskText, setTaskText] = useState<string>(taskData.text);
+    const [taskName, setTaskName] = useState<string>(taskData.name);
 
     const activateEditMode = () => setEditMode(true);
 

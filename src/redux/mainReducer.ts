@@ -4,7 +4,7 @@ import { BaseThunkType, InferActionsTypes } from "./reduxStore";
 
 const initialState = {
     chosenDate: moment() as Moment,
-    tasks: {} as {[key: string]: {[key: string]: TaskType}},
+    tasks: {} as TasksDataType,
     taskId: '' as string,
     initialized: false as boolean
 }
@@ -48,8 +48,8 @@ const mainReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 export const actions = {
     setChosenDate: (chosenDate: Moment) => (
         {type: 'MAIN/SET_CHOSEN_DATE', payload: { chosenDate } } as const),
-    setTasks: (tasks: any) => ({type: 'MAIN/SET_TASKS', payload: { tasks } } as const),
-    setTask: (date: string, taskId: string, task: TaskType) => (
+    setTasks: (tasks: TasksDataType) => ({type: 'MAIN/SET_TASKS', payload: { tasks } } as const),
+    addTask: (date: string, taskId: string, task: TaskType) => (
         {type: 'MAIN/ADD_TASK', payload: { date, taskId, task } } as const),
     updateTask: (date: string, taskId: string, task: TaskType) => (
         {type: 'MAIN/UPDATE_TASK', payload: { date, taskId, task } } as const),
@@ -68,13 +68,14 @@ export const setTaskId = (taskId: string): ThunkType => async (dispatch) => {
 
 export const getTasks = (userId: string | null): ThunkType => async (dispatch) => {
     const tasksData = await mainAPI.getTasks(userId);
+debugger
     dispatch(actions.setTasks(tasksData));
 }
 
 export const addTask = (userId: string | null, date: Moment, taskData: TaskType): ThunkType => async (dispatch) => {
     const taskId = mainAPI.createTaskKey(userId, date.format('DD-MM-YYYY'));
     await mainAPI.setTask(userId, date.format('DD-MM-YYYY'), taskId, taskData)
-    taskId && dispatch(actions.setTask(date.format('DD-MM-YYYY'), taskId, taskData));
+    taskId && dispatch(actions.addTask(date.format('DD-MM-YYYY'), taskId, taskData));
 }
 
 export const updateTask = (userId: string | null, date: Moment , taskId: string, taskData: TaskType): ThunkType => async (dispatch) => {
@@ -98,3 +99,5 @@ export type TaskType = {
     text: string
     isDone: boolean
 }
+
+type TasksDataType = {[key: string]: {[key: string]: TaskType}};

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { UIEventHandler, useState } from 'react';
 import { CalendarItem } from './CalendarItem';
 import s from './Calendar.module.css';
 import moment, { Moment } from 'moment';
@@ -23,49 +23,43 @@ export const Calendar: React.FC<PropsType> = ({chosenDate, onCalendarItemChanged
         }
         return arr;
     }
-    
-    useEffect(() => {
-        const calendarDiv = calendar.current;
-        const handleScroll = () => {
-            if (calendarDiv) {
-                if (calendarDiv.scrollLeft + calendarDiv.clientWidth === calendarDiv.scrollWidth) {
-                    const lastMonth = datesArray[datesArray.length - 1].month();
-                    setDatesArray(datesArray.concat(
-                        getDatesArray(1, moment().month(lastMonth + 1).daysInMonth(), lastMonth + 1))
-                    )
 
-                    setMonthArray([
-                        ...monthArray,
-                        {
-                            month: moment().month(lastMonth + 1).format('MMMM YYYY'),
-                            start: monthArray[monthArray.length - 1].end + 1,
-                            end: monthArray[monthArray.length - 1].end + (moment().month(lastMonth + 1).daysInMonth() * 74)
-                        }
-                    ]);
-                }
-                
-                const res = monthArray.reduce((r: string, e: MonthArrayDataType) =>
-                    calendarDiv.scrollLeft >= e.start && calendarDiv.scrollLeft <= e.end ? r + e.month : r + '', ''
-                );
-                    
-                shownMonth !== res && setShownMonth(res);
+    const handleScroll: UIEventHandler<HTMLDivElement> = (e) => {
+        const calendarDiv = e.currentTarget;
+            if (calendarDiv.scrollLeft + calendarDiv.clientWidth === calendarDiv.scrollWidth) {
+                const lastMonth = datesArray[datesArray.length - 1].month();
+                setDatesArray(datesArray.concat(
+                    getDatesArray(1, moment().month(lastMonth + 1).daysInMonth(), lastMonth + 1))
+                )
+
+                setMonthArray([
+                    ...monthArray,
+                    {
+                        month: moment().month(lastMonth + 1).format('MMMM YYYY'),
+                        start: monthArray[monthArray.length - 1].end + 1,
+                        end: monthArray[monthArray.length - 1].end + (moment().month(lastMonth + 1).daysInMonth() * 74)
+                    }
+                ]);
             }
-        }
+            
+            const res = monthArray.reduce((r: string, e: MonthArrayDataType) =>
+                calendarDiv.scrollLeft >= e.start && calendarDiv.scrollLeft <= e.end ? r + e.month : r + '', ''
+            );
+                
+            shownMonth !== res && setShownMonth(res);
         
-        calendarDiv && (calendarDiv.onscroll = handleScroll)
-
-    }, [datesArray, calendar, monthArray, shownMonth])
+    }
 
     return <div className={s.calendarContainer}>
         <div>
             {shownMonth}
         </div>
-        <div ref={calendar} className={s.items}>
+        <div ref={calendar} onScroll={handleScroll} className={s.items}>
             {datesArray.map((d) => 
                 <CalendarItem 
                     key={d.format("D-M-YY")}
                     date={d}
-                    tasks={tasks[d.format("DD-MM-YYYY")]}
+                    tasks={tasks[d.format("DD-MM-YYYY")] || {}}
                     today={moment().format("D-M-YY") === d.format("D-M-YY")} 
                     active={d.format("D-M-YY") === chosenDate.format("D-M-YY")}
                     onCalendarItemChanged={onCalendarItemChanged} />

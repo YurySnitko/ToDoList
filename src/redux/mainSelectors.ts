@@ -14,5 +14,5 @@ export const getDateTasks = createSelector(getTasks, getDate, (tasks, date) => {
 })
 
 export const getTaskData = createSelector(getDateTasks, getTaskId, (tasks, taskId) => {
-    return  tasks[taskId];
+    return tasks[taskId];
 })

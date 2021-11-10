@@ -17,7 +17,7 @@ export const CalendarItem: React.FC<PropsType> = ({tasks, onCalendarItemChanged,
     }
 
     useEffect(() => {
-        if (tasks) {
+        if (Object.keys(tasks).length > 0) {
             setCompletedTasksExists(hasCompletedTask(tasks));
             setIncomletedTasksExists(hasIncompletedTask(tasks));
         }
@@ -38,8 +38,8 @@ export const CalendarItem: React.FC<PropsType> = ({tasks, onCalendarItemChanged,
 
 type PropsType = {
     tasks: {[key: string]: TaskType}
-    date: Moment,
-    today: boolean,
+    date: Moment
+    today: boolean
     active: boolean
     onCalendarItemChanged: (date: Moment) => void
 }
