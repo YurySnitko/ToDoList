@@ -7,26 +7,16 @@ import cn from 'classnames';
 import { updateTask } from '../../redux/mainReducer';
 import { getUserId } from '../../redux/authSelectors';
 
-type PropsType = {
-    chosenDate: Moment
-}
-
-export const TaskPage = (props: PropsType) => {
+export const TaskPage: React.FC<PropsType> = ({chosenDate}) => {
+    const dispatch = useDispatch();
     const taskData = useSelector(getTaskData);
     const userId = useSelector(getUserId);
     const taskId = useSelector(getTaskId)
-    const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
     const [taskText, setTaskText] = useState(taskData.text);
     const [taskName, setTaskName] = useState(taskData.name);
 
-    const onStatusChange = () => {
-        const newTaskData = {...taskData, isDone: !taskData.isDone}
-        dispatch(updateTask(userId, props.chosenDate, taskId, newTaskData))
-    }
-    const activateEditMode = () => {
-        setEditMode(true);
-    }
+    const activateEditMode = () => setEditMode(true);
 
     const deactivateEditMode = () => {
         const newTaskData = {
@@ -34,23 +24,24 @@ export const TaskPage = (props: PropsType) => {
             text: taskText,
             isDone: taskData.isDone
         }
-        dispatch(updateTask(userId, props.chosenDate, taskId, newTaskData))
+        dispatch(updateTask(userId, chosenDate, taskId, newTaskData))
         setEditMode(false);
     }
 
-    const onTaskTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setTaskText(e.currentTarget.value)
+    const onStatusChange = () => {
+        const newTaskData = {...taskData, isDone: !taskData.isDone}
+        dispatch(updateTask(userId, chosenDate, taskId, newTaskData))
     }
 
-    const onTaskNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTaskName(e.currentTarget.value)
-    }
+    const onTaskTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => setTaskText(e.currentTarget.value);
+
+    const onTaskNameChange = (e: ChangeEvent<HTMLInputElement>) => setTaskName(e.currentTarget.value);
 
     return <div className={s.container}>
         <div className={s.date}>
-            {moment().format('DD-MM-YYYY') === props.chosenDate?.format('DD-MM-YYYY') 
+            {moment().format('DD-MM-YYYY') === chosenDate.format('DD-MM-YYYY') 
                 ? `Today's task` 
-                : `Task for ${props.chosenDate?.format('MMMM D, YYYY')}`}
+                : `Task for ${chosenDate.format('MMMM D, YYYY')}`}
         </div>
         <div className={s.taskName}>
             <div className={cn({[s.done]: taskData.isDone}, s.taskStatus)}/>
@@ -72,4 +63,8 @@ export const TaskPage = (props: PropsType) => {
             </>)
         }
     </div>
+}
+
+type PropsType = {
+    chosenDate: Moment
 }

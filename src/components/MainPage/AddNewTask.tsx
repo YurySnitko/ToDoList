@@ -1,32 +1,25 @@
 import { Moment } from 'moment';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getUserId } from '../../redux/authSelectors';
 import { addTask } from '../../redux/mainReducer';
 import s from './AddNewTask.module.css';
 
-type PropsType = {
-    chosenDate: Moment | null
-}
-
-const AddNewTask: React.FC<RouteComponentProps & PropsType> = (props) => {
+const AddNewTask: React.FC<RouteComponentProps & PropsType> = ({chosenDate, history}) => {
     const dispatch = useDispatch();
     const userId = useSelector(getUserId);
 
-    const addTaskHandler = async (event: any) => {
+    const addTaskHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const {taskName, taskText} = event.target.elements;
         const taskData = {
-            name: taskName.value,
-            text: taskText.value,
+            name: event.currentTarget.taskName.value,
+            text: event.currentTarget.taskText.value,
             isDone: false
         }
 
-        if (props.chosenDate) {
-            dispatch(addTask(userId, props.chosenDate, taskData))
-            props.history.push("/main");
-        }
+        dispatch(addTask(userId, chosenDate, taskData))
+        history.push("/main");
     }
 
     return <div className={s.addTaskContainer}>
@@ -40,3 +33,7 @@ const AddNewTask: React.FC<RouteComponentProps & PropsType> = (props) => {
 }
 
 export default withRouter(AddNewTask)
+
+type PropsType = {
+    chosenDate: Moment
+}

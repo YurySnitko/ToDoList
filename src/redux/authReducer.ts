@@ -25,7 +25,7 @@ export const actions = {
 
 export const login = (email: string, password: string): ThunkType => async (dispatch) => {
     const loginData = await authAPI.login(email, password);
-    if (loginData) dispatch(actions.setAuthUserData(loginData.uid, true))
+    loginData && dispatch(actions.setAuthUserData(loginData.uid, true))
 }
 
 export const signUp = (email: string, password: string): ThunkType => async (dispatch) => {

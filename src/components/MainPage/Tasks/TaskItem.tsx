@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import React, { useLayoutEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -6,37 +7,23 @@ import { setTaskId, updateTask } from '../../../redux/mainReducer';
 import { TaskType } from '../../../redux/mainReducer';
 import s from './TaskItem.module.css';
 
-type PropsType = {
-    task: TaskType
-    chosenDate: any
-    taskId: string
-}
-
-export const TaskItem = (props: PropsType) => {
+export const TaskItem: React.FC<PropsType> = ({chosenDate, task, taskId}) => {
     const dispatch = useDispatch();
     const userId = useSelector(getUserId);
-
     const checkbox = useRef<HTMLInputElement>(null);
+    const {current} = checkbox;
 
-    const handleClick = () => {
-        dispatch(setTaskId(props.taskId))
-    }
+    const handleClick = () => dispatch(setTaskId(taskId))
 
     useLayoutEffect(() => {
-        const {current} = checkbox;
-        if (null !== checkbox.current) {
-            checkbox.current.checked = props.task.isDone;
+        const handleChange = () => {
+            current && dispatch(updateTask(userId, chosenDate, taskId, {...task, isDone: current.checked}))
         }
 
-        const handleChange = () => {
-            if (checkbox.current) {
-                const taskData = {...props.task, isDone: checkbox.current?.checked};
-                dispatch(updateTask(userId, props.chosenDate, props.taskId, taskData))}
-        }
+        null !== current && (current.checked = task.isDone);
         
-        current?.addEventListener('change', handleChange);
-        return () => current?.removeEventListener('change', handleChange);
-    }, [props.chosenDate])
+        current && (current.onchange = handleChange)
+    }, [chosenDate, current, dispatch, task, taskId, userId])
 
     return <div className={s.taskItem}>
         <label className={s.customCheckbox}>
@@ -44,7 +31,13 @@ export const TaskItem = (props: PropsType) => {
             <div></div>
         </label>
         <div className={s.taskLink} onClick={handleClick}>
-            <NavLink to={'/task'}>{props.task.name}</NavLink>
+            <NavLink to={'/task'}>{task.name}</NavLink>
         </div>
     </div>
+}
+
+type PropsType = {
+    task: TaskType
+    chosenDate: Moment
+    taskId: string
 }

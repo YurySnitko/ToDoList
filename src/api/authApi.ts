@@ -1,60 +1,25 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, User, UserCredential } from "@firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
 import { auth, database } from "./firebase";
-import { toast } from "react-toastify";
 import { ref, set } from "@firebase/database";
-
-// type SignUpDataType = {
-//     email: string
-//     password: string
-// }
+import { getToast } from "../lib/toast";
 
 const setUserEmail = (userId: string, email: string) => {
-    set(ref(database, 'users/' + userId), {email: email})
+    set(ref(database, `users/${userId}`), {email: email})
 }
 
 export const authAPI = {
     signUp(email: string, password: string) {
         return createUserWithEmailAndPassword(auth, email, password)
-            .then(res => {
-                if (res.user) setUserEmail(res.user.uid, email)
-            })
-            .catch((err) => {
-                if (err) {
-                    toast(err.message, {
-                        className: "error-toast",
-                        draggable: true,
-                        position: toast.POSITION.TOP_CENTER
-                    })
-                }
-            });
+            .then(res => res.user && setUserEmail(res.user.uid, email))
+            .catch((err) => err && getToast(err));
     },
     login(email: string, password: string) {
         return signInWithEmailAndPassword(auth, email, password)
             .then(res => res.user)
-            .catch((err) => {
-                if (err) {
-                    toast(err.message, {
-                        className: "error-toast",
-                        draggable: true,
-                        position: toast.POSITION.TOP_CENTER
-                    })
-                }
-            })
+            .catch((err) => err && getToast(err));
     },
     logout() {
         return auth.signOut()
-            .catch((err) => {
-                if (err) {
-                    toast(err.message, {
-                        className: "error-toast",
-                        draggable: true,
-                        position: toast.POSITION.TOP_CENTER
-                    })
-                }
-            })
+            .catch((err) => err && getToast(err));
     }
-    
-            //set(ref(database, 'users/' + data.user.uid), {email: data.user.email});
-          
-    
 }

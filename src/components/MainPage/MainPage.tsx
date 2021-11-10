@@ -4,16 +4,16 @@ import { Calendar } from './Calendar/Calendar';
 import { Tasks } from './Tasks/Tasks';
 import { Moment } from 'moment';
 
-type PropsType = {
-    chosenDate: Moment | null
-    onCalendarItemChanged: (date: Moment) => void
-}
-
-const MainPage = (props: PropsType) => {
+const MainPage: React.FC<PropsType> = ({chosenDate, onCalendarItemChanged}) => {
     return <div className={s.container}>
-        <Calendar chosenDate={props.chosenDate} onCalendarItemChanged={props.onCalendarItemChanged} />
-        <Tasks chosenDate={props.chosenDate} />
+        <Calendar chosenDate={chosenDate} onCalendarItemChanged={onCalendarItemChanged} />
+        <Tasks chosenDate={chosenDate} />
     </div>
 }
 
 export default MainPage
+
+type PropsType = {
+    chosenDate: Moment 
+    onCalendarItemChanged: (date: Moment) => void
+}

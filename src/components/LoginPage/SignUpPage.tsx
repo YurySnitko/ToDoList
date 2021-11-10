@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { signUp } from '../../redux/authReducer';
 import s from './SignUpPage.module.css';
 import loginLogo from '../../assets/loginlogo.png';
 
-const SignUpPage = ({history}: {history: any}) => {
+const SignUpPage: React.FC<RouteComponentProps> = ({history}) => {
     const dispatch = useDispatch();
 
     const handleSignUp = useCallback(async event => {
@@ -13,7 +13,7 @@ const SignUpPage = ({history}: {history: any}) => {
         const {email, password} = event.target.elements;
         dispatch(signUp(email.value, password.value))
         history.push("/main");
-    }, [history])
+    }, [history, dispatch])
 
     return <div className={s.container}>
         <h1>Sign Up</h1>

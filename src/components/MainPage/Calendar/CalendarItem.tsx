@@ -4,48 +4,42 @@ import cn from 'classnames';
 import { Moment } from 'moment';
 import { TaskType } from '../../../redux/mainReducer';
 
-type PropsType = {
-    tasks: {[key: string]: TaskType} | null
-    date: Moment,
-    today: boolean,
-    active: boolean
-    onCalendarItemChanged: (date: Moment) => void
-}
-
-export const CalendarItem = (props: PropsType) => {
+export const CalendarItem: React.FC<PropsType> = ({tasks, onCalendarItemChanged, date, today, active}) => {
     const [completedTasksExist, setCompletedTasksExists] = useState(false);
     const [incompletedTasksExist, setIncomletedTasksExists] = useState(false);
 
+    const hasCompletedTask = (tasks: {[key: string]: TaskType}) => {
+        return Object.values(tasks).filter(e => e.isDone).length > 0 ? true : false;  
+    }
+
+    const hasIncompletedTask = (tasks: {[key: string]: TaskType}) => {
+        return Object.values(tasks).filter(e => !e.isDone).length > 0 ? true : false;  
+    }
+
     useEffect(() => {
-        if (props.tasks) {
-            const dateTasks = Object.values(props.tasks);
-            let hasDone = false;
-            let hasUndone = false;
-            dateTasks.map(e => { 
-                if (e.isDone === false) {
-                    setIncomletedTasksExists(true);
-                    hasUndone = true;
-                }
-                if (e.isDone === true) {
-                    setCompletedTasksExists(true);
-                    hasDone = true;
-                };
-                return '';
-            })
-            if (!hasDone) setCompletedTasksExists(false);
-            if (!hasUndone) setIncomletedTasksExists(false);
+        if (tasks) {
+            setCompletedTasksExists(hasCompletedTask(tasks));
+            setIncomletedTasksExists(hasIncompletedTask(tasks));
         }
-    }, [props.tasks])
+    }, [tasks])
 
     return <div className={s.container}>
-        <div onClick={() => props.onCalendarItemChanged(props.date)}
-            className={cn({ [s.today]: props.today }, s.calendarItem, { [s.active]: props.active })}>
-            <div>{props.date.format('ddd')}</div>
-            <div>{props.date.date()}</div>
+        <div onClick={() => onCalendarItemChanged(date)}
+            className={cn({ [s.today]: today }, s.calendarItem, { [s.active]: active })}>
+            <div>{date.format('ddd')}</div>
+            <div>{date.date()}</div>
         </div>
         <div className={s.taskStatuses}>
             {completedTasksExist && <div className={s.completedTasksExist} />}
             {incompletedTasksExist && <div className={s.incompletedTasksExist} />}
         </div>
     </div>
+}
+
+type PropsType = {
+    tasks: {[key: string]: TaskType}
+    date: Moment,
+    today: boolean,
+    active: boolean
+    onCalendarItemChanged: (date: Moment) => void
 }

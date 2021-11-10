@@ -11,26 +11,26 @@ import { TaskPage } from '../TaskPage/TaskPage';
 
 
 const MainContainer = () => {
-    const userId = useSelector(getUserId);
     const dispatch = useDispatch();
+    const userId = useSelector(getUserId);
     const chosenDate = useSelector(getDate);
     const initialized = useSelector(getInitialized);
     
-    const onCalendarItemChanged = (date: Moment) => {
-        dispatch(getChosenDate(date))
-    }
+    const onCalendarItemChanged = (date: Moment) => dispatch(getChosenDate(date));
 
     useEffect(() => {
         dispatch(initializeApp(userId))
-    }, [userId])
+    }, [userId, dispatch])
 
-    return !initialized ? 'loading...' : <Switch>
-        <Route path='/main' render={() => <MainPage chosenDate={chosenDate} onCalendarItemChanged={onCalendarItemChanged} />} />
-        <Route path='/newtask' render={() => <AddNewTask chosenDate={chosenDate} />} />
-        <Route path='/task' render={() => <TaskPage chosenDate={chosenDate} />} />
-        <Redirect to='/main' />
-    </Switch>
-    
+    return !initialized
+        ? 'loading...'
+        : <Switch>
+            <Route path='/main' render={
+                () => <MainPage chosenDate={chosenDate} onCalendarItemChanged={onCalendarItemChanged} />} />
+            <Route path='/newtask' render={() => <AddNewTask chosenDate={chosenDate} />} />
+            <Route path='/task' render={() => <TaskPage chosenDate={chosenDate} />} />
+            <Redirect to='/main' />
+        </Switch>
 }
 
 export default MainContainer
