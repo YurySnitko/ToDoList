@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/authReducer';
+import { logout } from 'redux/authReducer';
 import s from './Header.module.css';
 
 const LogoutBtn: React.FC = () => {

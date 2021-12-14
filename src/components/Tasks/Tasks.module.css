@@ -1,0 +1,19 @@
+.tasksContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.addTaskBtn {
+    align-self: center; 
+}
+
+.addTaskBtn a {
+    display: inline-block;
+    padding: 15px;
+    border-radius: 15px;
+    background: orange; 
+    text-decoration: none;
+    color: #eee;
+    font-weight: 600;
+}
