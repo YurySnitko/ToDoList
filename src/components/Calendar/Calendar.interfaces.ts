@@ -10,3 +10,10 @@ export interface MonthArrayData {
     start: number
     end: number
 }
+
+export interface MonthChange {
+    toogleBtn: boolean
+    direction?: DirectionType
+}
+
+export type DirectionType = "right" | "left"

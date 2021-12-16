@@ -1,63 +1,112 @@
-import React, { UIEventHandler, useState } from 'react';
+import React, { MouseEvent, UIEventHandler, useEffect, useRef, useState } from 'react';
 import s from './Calendar.module.css';
 import moment, { Moment } from 'moment';
 import { useSelector } from 'react-redux';
 import { getTasks } from 'redux/mainSelectors';
 import cn from 'classnames';
-import { CalendarProps, MonthArrayData } from './Calendar.interfaces';
+import { CalendarProps, DirectionType, MonthArrayData, MonthChange } from './Calendar.interfaces';
 import { CalendarItem } from './CalendarItem/CalendarItem';
+import { getDatesArray } from 'lib/getDatesArray';
+import { useIsMount } from 'lib/useIsMount';
+import { SkipBtn } from './SkipBtn/SkipBtn';
 
 export const Calendar: React.FC<CalendarProps> = ({ chosenDate, onCalendarItemChanged }) => {
     const thisMonth = moment().format("MMMM YYYY");
-    const startDatesArray = getDatesArray(moment().date(), moment().daysInMonth());
     const tasks = useSelector(getTasks);
-    const [datesArray, setDatesArray] = useState<Moment[]>(startDatesArray);
-    const [shownMonth, setShownMonth] = useState<string>(thisMonth);
+    const isMount = useIsMount();
+    const monthChange = useRef<MonthChange>({toogleBtn: false});
+    const calendarRef = useRef<HTMLDivElement | null>(null);
+    const [datesArray, setDatesArray] = useState<Moment[]>(() => getDatesArray(moment()));
+    const [shownMonth, setShownMonth] = useState<number>(0);
     const [monthArray, setMonthArray] = useState<MonthArrayData[]>
         ([{ month: thisMonth, start: 0, end: datesArray.length * 74 }]);
 
-    function getDatesArray(start: number, end: number, month: number = moment().month()) {
-        const arr = [];
-        for (let i = start; i <= end; i++) {
-            const date = moment().month(month).date(i)
-            arr.push(date)
-        }
-        return arr;
+    const addDates = () => {
+        const lastDate = datesArray[datesArray.length - 1];
+        const nextMonth = moment(lastDate).date(lastDate.date() + 1);
+        setDatesArray((prevDatesArray) => {
+            const lastDate = prevDatesArray[prevDatesArray.length - 1];
+            const nextMonth = moment(lastDate).date(lastDate.date() + 1);
+            return prevDatesArray.concat(getDatesArray(nextMonth))
+        })
+
+        setMonthArray((prevMonthArray) => [
+            ...prevMonthArray,
+            {
+                month: nextMonth.format('MMMM YYYY'),
+                start: prevMonthArray[prevMonthArray.length - 1].end + 1,
+                end: prevMonthArray[prevMonthArray.length - 1].end + (nextMonth.daysInMonth() * 74)
+            }
+        ]);
     }
 
     const handleScroll: UIEventHandler<HTMLDivElement> = (e) => {
         const calendarDiv = e.currentTarget;
         if (calendarDiv.scrollLeft + calendarDiv.clientWidth === calendarDiv.scrollWidth) {
-            const lastMonth = datesArray[datesArray.length - 1].month();
-            setDatesArray(datesArray.concat(
-                getDatesArray(1, moment().month(lastMonth + 1).daysInMonth(), lastMonth + 1))
-            )
-
-            setMonthArray([
-                ...monthArray,
-                {
-                    month: moment().month(lastMonth + 1).format('MMMM YYYY'),
-                    start: monthArray[monthArray.length - 1].end + 1,
-                    end: monthArray[monthArray.length - 1].end + (moment().month(lastMonth + 1).daysInMonth() * 74)
-                }
-            ]);
+            addDates()
         }
 
-        const res = monthArray.reduce((r: string, e: MonthArrayData) =>
-            calendarDiv.scrollLeft >= e.start && calendarDiv.scrollLeft <= e.end ? r + e.month : r + '', ''
+        const res = monthArray.findIndex((e: MonthArrayData) =>
+            calendarDiv.scrollLeft >= e.start && calendarDiv.scrollLeft <= e.end
         );
 
         shownMonth !== res && setShownMonth(res);
-
     }
 
+    const handleClick = (direction: DirectionType) => {
+        switch (direction) {
+            case "right":
+                setShownMonth((prev) => prev + 1)
+                monthChange.current = {
+                    toogleBtn: !monthChange.current.toogleBtn,
+                    direction: direction
+                }
+                if (calendarRef.current) {
+                    calendarRef.current.scrollWidth < monthArray[shownMonth].end + 50 && addDates()
+                }
+                break
+            case "left":
+                setShownMonth((prev) => prev - 1)
+                monthChange.current = {
+                    toogleBtn: !monthChange.current.toogleBtn,
+                    direction: direction
+                }
+                break
+        }
+        // if (direction === "right") {
+        //     setShownMonth((prev) => prev + 1)
+        //     monthChange.current = {
+        //         toogleBtn: !monthChange.current.toogleBtn,
+        //         direction: direction
+        //     }
+        //     if (calendarRef.current) {
+        //         calendarRef.current.scrollWidth < monthArray[shownMonth].end + 50 && addDates()
+        //     }
+        // } else if (direction === "left") {
+        //     setShownMonth((prev) => prev - 1)
+        //     monthChange.current = {
+        //         toogleBtn: !monthChange.current.toogleBtn,
+        //         direction: direction
+        //     }
+        // }
+    }
+
+
+    useEffect(() => {
+        if (calendarRef.current && !isMount) {
+            monthChange.current.direction === "right" 
+            ? calendarRef.current.scrollLeft = monthArray[shownMonth - 1].end + 20
+            : calendarRef.current.scrollLeft = monthArray[shownMonth].start + 20
+        }
+    }, [monthChange.current])
+
     return <div className={s.calendarContainer}>
-        <div>
-            <div className={cn(s.navArrow, s.left)} />
-            {shownMonth}
-            <div className={cn(s.navArrow, s.right)} />
+        <div className={s.month}>
+            {shownMonth > 0 && <SkipBtn direction="left" onclick={handleClick} />}
+            {monthArray[shownMonth].month}
+            <SkipBtn direction="right" onclick={handleClick} />
         </div>
-        <div className={s.items} onScroll={handleScroll}>
+        <div className={s.items} ref={calendarRef} onScroll={handleScroll}>
             {datesArray.map((d) =>
                 <CalendarItem
                     key={d.format("D-M-YY")}

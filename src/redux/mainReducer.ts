@@ -68,7 +68,6 @@ export const setTaskId = (taskId: string): ThunkType => async (dispatch) => {
 
 export const getTasks = (userId: string | null): ThunkType => async (dispatch) => {
     const tasksData = await mainAPI.getTasks(userId);
-debugger
     dispatch(actions.setTasks(tasksData));
 }
 
