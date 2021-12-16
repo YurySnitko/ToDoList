@@ -7,6 +7,7 @@ import cn from 'classnames';
 import { updateTask } from 'redux/mainReducer';
 import { getUserId } from 'redux/authSelectors';
 import { TaskPageProps } from './TaskPage.interfaces';
+import { BaseBtn } from 'controls/BaseBtn/BaseBtn';
 
 export const TaskPage: React.FC<TaskPageProps> = ({ chosenDate }) => {
     const dispatch = useDispatch();
@@ -53,14 +54,16 @@ export const TaskPage: React.FC<TaskPageProps> = ({ chosenDate }) => {
                 <div className={s.taskText}>
                     <textarea onChange={onTaskTextChange} value={taskText} />
                 </div>
-                <button className={cn(s.btn, s.btnEdit)} onClick={deactivateEditMode}>Save</button>
+                <BaseBtn type="primary" onclick={deactivateEditMode}>Save</BaseBtn>
             </>)
             : (<>
                 <div className={s.taskText}>{taskData.text}</div>
-                <button className={cn(s.btn, s.btnEdit)} onClick={activateEditMode}>Edit</button>
-                <button className={cn(s.btn, s.btnStatus)} onClick={onStatusChange}>
+                <div className={s.btnBox}>
+                <BaseBtn type="primary" onclick={activateEditMode}>Edit</BaseBtn>
+                <BaseBtn type="status" onclick={onStatusChange}>
                     {taskData.isDone ? 'Incompleted' : 'Completed'}
-                </button>
+                </BaseBtn>
+                </div>
             </>)
         }
     </div>

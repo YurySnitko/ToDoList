@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'redux/authReducer';
 import { getIsAuth } from 'redux/authSelectors';
 import loginLogo from 'assets/loginlogo.png';
+import { BaseBtn } from 'controls/BaseBtn/BaseBtn';
 
 const Login: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
             <form className={s.formContainer} onSubmit={handleLogin}>
                 <input type="email" name="email" placeholder="Email" />
                 <input type="password" name="password" placeholder="Password" />
-                <button type="submit">Log in</button>
+                <BaseBtn type="primary" htmlType="submit" block={true}>Log in</BaseBtn>
             </form>
             <div className={s.navLink}>
                 Don't have an account? <NavLink to='/signup'>Sign Up</NavLink>

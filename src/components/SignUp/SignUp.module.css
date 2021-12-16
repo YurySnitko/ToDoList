@@ -20,20 +20,8 @@
     min-width: 200px;
 }
 
-.formContainer > button {
-    padding: 5px;
-    min-width: 210px;
-    margin: 10px 0;
-    border-radius: 5px;
-    background-color: orange;
-    border: 2px solid rgba(255, 166, 0, 0.842);
-    font-family: 'Montserrat', sans-serif;
+.navLink a {
+    text-decoration: none;
+    color: rgb(145, 94, 0);
     font-weight: 600;
-    color: #eee;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.formContainer > button:hover {
-    opacity: 0.8;
 }

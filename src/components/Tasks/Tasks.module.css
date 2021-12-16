@@ -17,3 +17,7 @@
     color: #eee;
     font-weight: 600;
 }
+
+.btnBox {
+    align-self: center; 
+}

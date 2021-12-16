@@ -1,3 +1,4 @@
+import { BaseBtn } from 'controls/BaseBtn/BaseBtn';
 import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -27,7 +28,7 @@ const AddNewTask: React.FC<RouteComponentProps & AddNewTaskProps> = ({ chosenDat
         <form onSubmit={addTaskHandler} className={s.taskForm}>
             <input type="text" name="taskName" placeholder="Task name" />
             <textarea name="taskText" placeholder="Enter your task..." />
-            <button type="submit">Add</button>
+            <BaseBtn type="primary">Add</BaseBtn>
         </form>
     </div>
 }

@@ -1,8 +1,7 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { getIsAuth } from '../../redux/authSelectors';
+import { getIsAuth } from 'redux/authSelectors';
 import s from './Header.module.css';
-import LogoutBtn from './LogoutBtn';
+import LogoutBtn from 'controls/LogoutBtn/LogoutBtn';
 
 export const Header = () => {
     const isAuth = useSelector(getIsAuth);

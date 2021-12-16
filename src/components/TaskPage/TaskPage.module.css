@@ -28,25 +28,7 @@
     font-weight: 300;
 }
 
-.btn {
-    display: inline-block;
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: large;
-    min-width: 100px;
-    cursor: pointer;
-    margin: 0 5px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-}
-
-.btnStatus {
-    background-color: rgba(21, 192, 29, 0.74);
-    color: #eee;
-}
-
-.btnEdit {
-    background-color: rgb(255, 166, 0);
-    color: #eee;
+.btnBox {
+    display: flex;
+    gap: 20px;
 }

@@ -1,3 +1,4 @@
+import { CheckBox } from 'controls/CheckBox/CheckBox';
 import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -17,10 +18,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ chosenDate, task, taskId }) 
     }
 
     return <div className={s.taskItem}>
-        <label className={s.customCheckbox}>
-            <input type="checkbox" onChange={handleChange} checked={task.isDone} />
-            <div></div>
-        </label>
+        <CheckBox onchange={handleChange} isChecked={task.isDone} />
         <div className={s.taskLink} onClick={handleClick}>
             <NavLink to={'/task'}>{task.name}</NavLink>
         </div>

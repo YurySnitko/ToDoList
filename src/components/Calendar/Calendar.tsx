@@ -1,20 +1,19 @@
-import React, { MouseEvent, UIEventHandler, useEffect, useRef, useState } from 'react';
+import React, { UIEventHandler, useEffect, useRef, useState } from 'react';
 import s from './Calendar.module.css';
 import moment, { Moment } from 'moment';
 import { useSelector } from 'react-redux';
 import { getTasks } from 'redux/mainSelectors';
-import cn from 'classnames';
 import { CalendarProps, DirectionType, MonthArrayData, MonthChange } from './Calendar.interfaces';
-import { CalendarItem } from './CalendarItem/CalendarItem';
+import { CalendarItem } from '../CalendarItem/CalendarItem';
 import { getDatesArray } from 'lib/getDatesArray';
 import { useIsMount } from 'lib/useIsMount';
-import { SkipBtn } from './SkipBtn/SkipBtn';
+import { SkipBtn } from '../../controls/SkipBtn/SkipBtn';
 
 export const Calendar: React.FC<CalendarProps> = ({ chosenDate, onCalendarItemChanged }) => {
     const thisMonth = moment().format("MMMM YYYY");
     const tasks = useSelector(getTasks);
     const isMount = useIsMount();
-    const monthChange = useRef<MonthChange>({toogleBtn: false});
+    const monthChange = useRef<MonthChange>({ toogleBtn: false });
     const calendarRef = useRef<HTMLDivElement | null>(null);
     const [datesArray, setDatesArray] = useState<Moment[]>(() => getDatesArray(moment()));
     const [shownMonth, setShownMonth] = useState<number>(0);
@@ -73,30 +72,13 @@ export const Calendar: React.FC<CalendarProps> = ({ chosenDate, onCalendarItemCh
                 }
                 break
         }
-        // if (direction === "right") {
-        //     setShownMonth((prev) => prev + 1)
-        //     monthChange.current = {
-        //         toogleBtn: !monthChange.current.toogleBtn,
-        //         direction: direction
-        //     }
-        //     if (calendarRef.current) {
-        //         calendarRef.current.scrollWidth < monthArray[shownMonth].end + 50 && addDates()
-        //     }
-        // } else if (direction === "left") {
-        //     setShownMonth((prev) => prev - 1)
-        //     monthChange.current = {
-        //         toogleBtn: !monthChange.current.toogleBtn,
-        //         direction: direction
-        //     }
-        // }
     }
-
 
     useEffect(() => {
         if (calendarRef.current && !isMount) {
-            monthChange.current.direction === "right" 
-            ? calendarRef.current.scrollLeft = monthArray[shownMonth - 1].end + 20
-            : calendarRef.current.scrollLeft = monthArray[shownMonth].start + 20
+            monthChange.current.direction === "right"
+                ? calendarRef.current.scrollLeft = monthArray[shownMonth - 1].end + 20
+                : calendarRef.current.scrollLeft = monthArray[shownMonth].start + 20
         }
     }, [monthChange.current])
 

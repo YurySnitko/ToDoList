@@ -4,6 +4,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { signUp } from 'redux/authReducer';
 import s from './SignUp.module.css';
 import loginLogo from 'assets/loginlogo.png';
+import { NavLink } from 'react-router-dom';
+import { BaseBtn } from 'controls/BaseBtn/BaseBtn';
 
 const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch();
@@ -23,8 +25,11 @@ const SignUp: React.FC<RouteComponentProps> = ({ history }) => {
         <form className={s.formContainer} onSubmit={handleSignUp}>
             <input type="email" name="email" placeholder="Email" />
             <input type="password" name="password" placeholder="Password" />
-            <button type="submit">Sign Up</button>
+            <BaseBtn type="primary" htmlType="submit" block={true}>Sign up</BaseBtn>
         </form>
+        <div className={s.navLink}>
+            Have an account? <NavLink to='/login'>Log In</NavLink>
+        </div>
     </div>
 }
 
