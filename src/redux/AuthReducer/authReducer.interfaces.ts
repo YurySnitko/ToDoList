@@ -1,7 +1,4 @@
-import {
-  BaseThunkType,
-  InferActionsTypes,
-} from 'redux/ReduxStore/reduxStore.interfaces';
+import { BaseThunkType, InferActionsTypes } from 'redux/reduxStore.interfaces';
 import { actions, initialState } from './authReducer';
 
 export type InitialStateType = typeof initialState;
