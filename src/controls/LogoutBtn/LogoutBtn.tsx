@@ -1,16 +1,16 @@
 import { BaseBtn } from 'controls/BaseBtn/BaseBtn';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from 'redux/authReducer';
-import s from './LogoutBtn.module.css';
+import { logout } from 'redux/AuthReducer/authReducer';
 
 const LogoutBtn: React.FC = () => {
-    const dispatch = useDispatch();
-   // const logoutCallback = () => dispatch(logout())
+  const dispatch = useDispatch();
 
-    return <BaseBtn type="primary" onclick={() => dispatch(logout())}>Sign out</BaseBtn>
-    // return <div>
-    //     <button className={s.btn} onClick={logoutCallback}>Sign Out</button>
-    // </div>
-}
+  return (
+    <BaseBtn type="primary" onclick={() => dispatch(logout())}>
+      Sign out
+    </BaseBtn>
+  );
+};
 
-export default LogoutBtn
+export default LogoutBtn;

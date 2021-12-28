@@ -1,3 +1,3 @@
 export interface NavigateBtnProps {
-    path: string
+  path: string;
 }

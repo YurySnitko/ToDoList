@@ -1,12 +1,12 @@
 .taskItem {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    padding: 15px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px 0;
 }
 
 .taskLink a {
-    text-decoration: none;
-    color: #111;
+  text-decoration: none;
+  color: #111;
 }

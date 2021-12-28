@@ -1,8 +1,8 @@
-import { Moment } from "moment";
-import { TaskType } from "redux/mainReducer";
+import { Moment } from 'moment';
+import { TaskType } from 'redux/MainReducer/mainReducer.interfaces';
 
 export interface TaskItemProps {
-    task: TaskType
-    chosenDate: Moment
-    taskId: string
+  task: TaskType;
+  chosenDate: Moment;
+  taskId: string;
 }

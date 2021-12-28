@@ -1,25 +1,25 @@
 .navArrow {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: orange;
-    border: 1px solid orange;
-    border-radius: 4px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 80% 80%;
-    cursor: pointer;
-    transition: 0.3s;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: orange;
+  border: 1px solid orange;
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 80% 80%;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .navArrow:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .left {
-    background-image: url(../../assets/arrowWhteLeft.png);
+  background-image: url(../../assets/arrowWhteLeft.png);
 }
 
 .right {
-    background-image: url(../../assets/arrowWhiteRight.png);
+  background-image: url(../../assets/arrowWhiteRight.png);
 }

@@ -1,14 +1,14 @@
 .header {
-    background-color: #fff;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 10px;
 }
 
 .appName {
-    font-size: xx-large;
+  font-size: xx-large;
 }

@@ -1,5 +1,5 @@
-import { Moment } from "moment";
+import { Moment } from 'moment';
 
 export interface TasksProps {
-    chosenDate: Moment
+  chosenDate: Moment;
 }

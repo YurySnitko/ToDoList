@@ -1,28 +1,28 @@
 .baseBtn {
-    padding: 5px;
-    margin: 10px 0;
-    border-radius: 5px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: #eee;
-    cursor: pointer;
-    transition: 0.3s;
+  padding: 5px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #eee;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .block {
-    width: 100%;
+  width: 100%;
 }
 
 .baseBtn:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .primary {
-    background-color: orange;
-    border: 2px solid orange;
+  background-color: orange;
+  border: 2px solid orange;
 }
 
 .status {
-    background-color: rgb(25, 221, 139);
-    border: 2px solid rgb(25, 221, 139);
+  background-color: rgb(25, 221, 139);
+  border: 2px solid rgb(25, 221, 139);
 }

@@ -1,19 +1,19 @@
-import { Moment } from "moment";
+import { Moment } from 'moment';
 
 export interface CalendarProps {
-    chosenDate: Moment
-    onCalendarItemChanged: (date: Moment) => void
+  chosenDate: Moment;
+  onCalendarItemChanged: (date: Moment) => void;
 }
 
 export interface MonthArrayData {
-    month: string
-    start: number
-    end: number
+  month: string;
+  start: number;
+  end: number;
 }
 
 export interface MonthChange {
-    toogleBtn: boolean
-    direction?: DirectionType
+  toogleBtn: boolean;
+  direction?: DirectionType;
 }
 
-export type DirectionType = "right" | "left"
+export type DirectionType = 'right' | 'left';
